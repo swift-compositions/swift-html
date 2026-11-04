@@ -18,7 +18,11 @@ extension Target.Dependency {
         .product(name: "HTML Rendering Core Test Support", package: "swift-html-render")
     }
     static var markdownHtmlRendering: Self {
-        .product(name: "Markdown HTML Rendering", package: "swift-markdown-html-render")
+        .product(
+            name: "Markdown HTML Rendering",
+            package: "swift-markdown-html-render",
+            condition: .when(traits: ["Markdown"])
+        )
     }
     static var css: Self { .product(name: "CSS", package: "swift-css") }
     static var cssTheming: Self { .product(name: "CSS Theming", package: "swift-css") }
@@ -68,7 +72,11 @@ let package = Package(
         .trait(
             name: "Translating",
             description: "Include TranslatedString integration for internationalization support"
-        )
+        ),
+        .trait(
+            name: "Markdown",
+            description: "The Markdown view, which renders Markdown as HTML"
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-compositions/swift-html-render.git", branch: "main"),
