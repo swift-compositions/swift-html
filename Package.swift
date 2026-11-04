@@ -2,60 +2,6 @@
 
 import PackageDescription
 
-extension String {
-    static let html: Self = "HTML"
-}
-
-extension Target.Dependency {
-    static var html: Self { .target(name: .html) }
-}
-
-extension Target.Dependency {
-    static var htmlRendering: Self {
-        .product(name: "HTML Rendering", package: "swift-html-render")
-    }
-    static var htmlRenderingCoreTestSupport: Self {
-        .product(name: "HTML Rendering Core Test Support", package: "swift-html-render")
-    }
-    static var markdownHtmlRendering: Self {
-        .product(
-            name: "Markdown HTML Rendering",
-            package: "swift-markdown-html-render",
-            condition: .when(traits: ["Markdown"])
-        )
-    }
-    static var css: Self { .product(name: "CSS", package: "swift-css") }
-    static var cssTheming: Self { .product(name: "CSS Theming", package: "swift-css") }
-    static var color: Self { .product(name: "Color", package: "swift-color") }
-    static var rfc4648: Self { .product(name: "RFC 4648", package: "swift-rfc-4648") }
-    static var whatwgFormURLEncoded: Self {
-        .product(name: "WHATWG Form URL Encoded", package: "swift-whatwg-url")
-    }
-    static var bytePrimitives: Self {
-        .product(name: "Byte", package: "swift-byte")
-    }
-    static var bytePrimitivesStandardLibraryIntegration: Self {
-        .product(
-            name: "Byte",
-            package: "swift-byte"
-        )
-    }
-    static var translating: Self {
-        .product(
-            name: "Translating",
-            package: "swift-translating",
-            condition: .when(traits: ["Translating"])
-        )
-    }
-    static var translatingDependencies: Self {
-        .product(
-            name: "Translating Dependencies",
-            package: "swift-translating",
-            condition: .when(traits: ["Translating"])
-        )
-    }
-}
-
 let package = Package(
     name: "swift-html",
     platforms: [
@@ -66,7 +12,7 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(name: .html, targets: [.html])
+        .library(name: "HTML", targets: ["HTML"])
     ],
     traits: [
         .trait(
@@ -133,18 +79,29 @@ let package = Package(
         .target(
             name: "HTML",
             dependencies: [
-                .htmlRendering,
-                .css,
-                .cssTheming,
-                .markdownHtmlRendering,
-                .color,
-                .rfc4648,
-                .whatwgFormURLEncoded,
-                .bytePrimitives,
-                .bytePrimitivesStandardLibraryIntegration,
+                .product(name: "HTML Rendering", package: "swift-html-render"),
+                .product(name: "CSS", package: "swift-css"),
+                .product(name: "CSS Theming", package: "swift-css"),
+                .product(
+                    name: "Markdown HTML Rendering",
+                    package: "swift-markdown-html-render",
+                    condition: .when(traits: ["Markdown"])
+                ),
+                .product(name: "Color", package: "swift-color"),
+                .product(name: "RFC 4648", package: "swift-rfc-4648"),
+                .product(name: "WHATWG Form URL Encoded", package: "swift-whatwg-url"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(name: "SVG", package: "swift-svg"),
-                .translating,
-                .translatingDependencies,
+                .product(
+                    name: "Translating",
+                    package: "swift-translating",
+                    condition: .when(traits: ["Translating"])
+                ),
+                .product(
+                    name: "Translating Dependencies",
+                    package: "swift-translating",
+                    condition: .when(traits: ["Translating"])
+                ),
             ],
             swiftSettings: [
                 .define("TRANSLATING", .when(traits: ["Translating"]))
@@ -153,20 +110,15 @@ let package = Package(
         .testTarget(
             name: "HTML Tests",
             dependencies: [
-                .html,
-                .htmlRenderingCoreTestSupport,
-                .rfc4648,
+                .target(name: "HTML"),
+                .product(name: "HTML Rendering Core Test Support", package: "swift-html-render"),
+                .product(name: "RFC 4648", package: "swift-rfc-4648"),
             ],
             path: "Tests/HTML Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
-
-extension String {
-    var tests: Self { "\(self) Tests" }
-    var foundation: Self { self + " Foundation" }
-}
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     let ecosystem: [SwiftSetting] = [
