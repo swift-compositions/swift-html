@@ -50,7 +50,7 @@ extension Target.Dependency {
     static var translatingDependencies: Self {
         .product(
             name: "Translating Dependencies",
-            package: "swift-translating-dependencies",
+            package: "swift-translating",
             condition: .when(traits: ["Translating"])
         )
     }
@@ -93,10 +93,10 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         ),
-        .package(url: "https://github.com/swift-compositions/swift-translating.git", branch: "main"),
         .package(
-            url: "https://github.com/swift-compositions/swift-translating-dependencies.git",
-            branch: "main"
+            url: "https://github.com/swift-compositions/swift-translating.git",
+            branch: "main",
+            traits: [.trait(name: "TranslatingPlatform", condition: .when(traits: ["Translating"]))]
         ),
         .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main", traits: ["Coder", "Parser", "Serializer"]),
         .package(url: "https://github.com/swift-atoms/swift-coder.git", branch: "main", traits: ["Carrier", "Map"]),
