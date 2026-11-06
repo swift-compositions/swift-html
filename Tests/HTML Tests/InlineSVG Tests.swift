@@ -5,14 +5,16 @@ import SVG
 import SVG_Standard
 import Testing
 
-extension InlineSVG {
+enum `InlineSVG Tests` {}
+
+extension `InlineSVG Tests` {
     @Suite enum Test {
         @Suite struct Unit {}
         @Suite struct EdgeCase {}
     }
 }
 
-extension InlineSVG.Test.Unit {
+extension `InlineSVG Tests`.Test.Unit {
     @Test
     func `InlineSVG renders correctly in HTML`() throws {
         let html = div {
@@ -202,11 +204,11 @@ extension InlineSVG.Test.Unit {
     }
 }
 
-extension InlineSVG.Test {
+extension `InlineSVG Tests`.Test {
     @Suite struct Integration {}
 }
 
-extension InlineSVG.Test.Integration {
+extension `InlineSVG Tests`.Test.Integration {
     @Test
     func `InlineSVG within styled HTML document renders complete output`() throws {
         let document = HTML.Document {
