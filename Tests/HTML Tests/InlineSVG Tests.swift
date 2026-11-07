@@ -10,8 +10,11 @@ enum `InlineSVG Tests` {}
 extension `InlineSVG Tests` {
     @Suite enum Test {
         @Suite struct Unit {}
-        @Suite struct EdgeCase {}
     }
+}
+
+extension `InlineSVG Tests`.Test {
+    @Suite struct EdgeCase {}
 }
 
 extension `InlineSVG Tests`.Test.Unit {
