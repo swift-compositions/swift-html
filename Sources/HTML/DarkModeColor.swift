@@ -12,9 +12,9 @@ extension DarkModeColor {
         to color2: DarkModeColor
     ) -> DarkModeColor? {
         func midpoint(
-            _ c1: CSS_Standard.Color.Value,
-            _ c2: CSS_Standard.Color.Value
-        ) -> CSS_Standard.Color.Value? {
+            _ c1: CSS_Standard::Color.Value,
+            _ c2: CSS_Standard::Color.Value
+        ) -> CSS_Standard::Color.Value? {
             guard let srgb1 = sRGB(c1), let srgb2 = sRGB(c2) else { return nil }
 
             let midR = (srgb1.r255 + srgb2.r255) / 2
@@ -38,7 +38,7 @@ extension DarkModeColor {
 
         let brightness =
             (Double(srgb.r255) * 299 + Double(srgb.g255) * 587 + Double(srgb.b255) * 114) / 255000
-        let color: CSS_Standard.Color.Value = brightness > 0.5 ? .hex("000000") : .hex("FFFFFF")
+        let color: CSS_Standard::Color.Value = brightness > 0.5 ? .hex("000000") : .hex("FFFFFF")
         return .init(color)
     }
 }
