@@ -42,7 +42,7 @@ extension HTML.Image.Element {
             guard base64 else {
 
                 return
-                    "data:image/svg+xml;charset=utf-8,\(WHATWG_Form_URL_Encoded::PercentEncoding.encode(String(svg), space: .percentEscaped))"
+                    "data:image/svg+xml;charset=utf-8,\(WHATWG_Form_URL_Encoded::WHATWG_Form_URL_Encoded.PercentEncoding.encode(String(svg), space: .percentEscaped))"
             }
             return "data:image/svg+xml;base64,\([Byte](svg).base64.encoded())"
         }
