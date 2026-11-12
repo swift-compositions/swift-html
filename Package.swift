@@ -14,6 +14,7 @@ let package = Package(
     products: [
         .library(name: "HTML", targets: ["HTML"]),
         .library(name: "HTML DOM", targets: ["HTML DOM"]),
+        .library(name: "HTML DOM Test Support", targets: ["HTML DOM Test Support"]),
     ],
     traits: [
         .trait(
@@ -143,18 +144,50 @@ let package = Package(
                     package: "swift-ordinal",
                     condition: .when(traits: ["DOM"])
                 ),
+                .product(
+                    name: "Byte",
+                    package: "swift-byte",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Binary",
+                    package: "swift-binary",
+                    condition: .when(traits: ["DOM"])
+                ),
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("Extern")
             ]
+        ),
+        .target(
+            name: "HTML DOM Test Support",
+            dependencies: [
+                .target(name: "HTML DOM"),
+                .product(
+                    name: "WHATWG DOM",
+                    package: "swift-whatwg-dom",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Byte",
+                    package: "swift-byte",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Binary",
+                    package: "swift-binary",
+                    condition: .when(traits: ["DOM"])
+                ),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "HTML DOM Tests",
             dependencies: [
                 .target(name: "HTML"),
                 .target(name: "HTML DOM"),
-                .product(
-                    name: "WHATWG DOM Test Support",
-                    package: "swift-whatwg-dom",
-                    condition: .when(traits: ["DOM"])
-                ),
+                .target(name: "HTML DOM Test Support"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(name: "Optic", package: "swift-optic"),
             ]
         ),

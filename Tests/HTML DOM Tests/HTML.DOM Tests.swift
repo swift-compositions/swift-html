@@ -3,7 +3,7 @@
     import HTML_DOM
     import Optic
     import Testing
-    import WHATWG_DOM_Test_Support
+    import HTML_DOM_Test_Support
 
     @Observable
     final class Model {
@@ -55,6 +55,7 @@
         }
     }
 
+    @Suite(.serialized)
     enum `HTML.DOM Tests` {}
 
     extension `HTML.DOM Tests` {
@@ -70,7 +71,7 @@
 
         @Test
         func `mount renders the view in one flush`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Counter(model: model) }
             #expect(memory.html == "<div><p>Count: 0</p><button>+</button></div>")
@@ -79,44 +80,44 @@
 
         @Test
         func `a click changes state and only the changed text is patched`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Counter(model: model) }
             let before = memory.operations
             memory.fire(.click, on: memory.first("button"))
             #expect(model.count == 1)
             #expect(memory.scheduled == 1)
-            unsafe WHATWG.DOM.Loop.tick()
+            unsafe HTML.DOM.Loop.tick()
             #expect(memory.html == "<div><p>Count: 1</p><button>+</button></div>")
             #expect(memory.operations - before == 1)
         }
 
         @Test
         func `several changes before a tick render once`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             let mount = HTML.DOM.mount(in: "#app", host: memory.host) { Counter(model: model) }
             model.count = 5
             model.count = 6
             #expect(memory.scheduled == 1)
-            unsafe WHATWG.DOM.Loop.tick()
+            unsafe HTML.DOM.Loop.tick()
             #expect(mount.renders == 2)
             #expect(memory.html == "<div><p>Count: 6</p><button>+</button></div>")
         }
 
         @Test
         func `a tick without a change does nothing`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             let mount = HTML.DOM.mount(in: "#app", host: memory.host) { Counter(model: model) }
-            unsafe WHATWG.DOM.Loop.tick()
+            unsafe HTML.DOM.Loop.tick()
             #expect(mount.renders == 1)
             #expect(memory.flushes == 1)
         }
 
         @Test
         func `state the view did not read does not re-render`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Counter(model: model) }
             model.name = "Grace"
@@ -125,13 +126,13 @@
 
         @Test
         func `keyed rows keep their elements when reordered`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Rows(model: model) }
             let before = memory.first("ul").children
             let operations = memory.operations
             model.rows = [3, 1, 2]
-            unsafe WHATWG.DOM.Loop.tick()
+            unsafe HTML.DOM.Loop.tick()
             let after = memory.first("ul").children
             #expect(memory.html == "<ul><li>3</li><li>1</li><li>2</li></ul>")
             #expect(after[0] === before[2])
@@ -142,25 +143,25 @@
 
         @Test
         func `keyed rows are added and removed in place`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Rows(model: model) }
             let three = memory.first("ul").children[2]
             model.rows = [3, 4]
-            unsafe WHATWG.DOM.Loop.tick()
+            unsafe HTML.DOM.Loop.tick()
             #expect(memory.html == "<ul><li>3</li><li>4</li></ul>")
             #expect(memory.first("ul").children[0] === three)
         }
 
         @Test
         func `value and checked bindings write back and re-render`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Form(model: model) }
             let inputs = memory.first("div").children
-            memory.fire(.input, on: inputs[0], target: WHATWG.DOM.Target(value: "Grace"))
-            memory.fire(.change, on: inputs[1], target: WHATWG.DOM.Target(checkedness: .checked))
-            unsafe WHATWG.DOM.Loop.tick()
+            memory.fire(.input, on: inputs[0], target: HTML.DOM.Target(value: "Grace"))
+            memory.fire(.change, on: inputs[1], target: HTML.DOM.Target(checkedness: .checked))
+            unsafe HTML.DOM.Loop.tick()
             #expect(model.name == "Grace")
             #expect(model.done)
             #expect(memory.first("p").children.first?.data == "Grace done")
@@ -170,13 +171,13 @@
 
         @Test
         func `listeners are reused across renders`() {
-            let memory = WHATWG.DOM.Memory()
+            let memory = HTML.DOM.Memory()
             let model = Model()
             HTML.DOM.mount(in: "#app", host: memory.host) { Counter(model: model) }
             let button = memory.first("button")
             for _ in 0..<3 {
                 memory.fire(.click, on: button)
-                unsafe WHATWG.DOM.Loop.tick()
+                unsafe HTML.DOM.Loop.tick()
             }
             #expect(model.count == 3)
             #expect(unsafe HTML.DOM.Runtime.shared.listeners == 1)

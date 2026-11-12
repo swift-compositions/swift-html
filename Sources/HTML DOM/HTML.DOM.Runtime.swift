@@ -1,6 +1,5 @@
 #if DOM
     public import Renderer
-    public import WHATWG_DOM
 
     extension HTML.DOM {
 
@@ -38,10 +37,10 @@
 
         func install(_ mount: HTML.DOM.Mount) {
             mounts.append(mount)
-            unsafe WHATWG.DOM.Loop.dispatch = { id in
+            unsafe HTML.DOM.Loop.dispatch = { id in
                 unsafe HTML.DOM.Runtime.shared.dispatch(id)
             }
-            unsafe WHATWG.DOM.Loop.tick = {
+            unsafe HTML.DOM.Loop.tick = {
                 unsafe HTML.DOM.Runtime.shared.tick()
             }
         }

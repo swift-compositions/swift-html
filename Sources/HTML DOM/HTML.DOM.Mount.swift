@@ -9,11 +9,11 @@
 
         public final class Mount {
 
-            let host: WHATWG.DOM.Host
+            let host: HTML.DOM.Host
 
             let render: (inout Renderer.Document.Context) -> Void
 
-            var batch: WHATWG.DOM.Batch
+            var batch: HTML.DOM.Batch
 
             let root: HTML.DOM.Live
 
@@ -25,12 +25,12 @@
 
             init(
                 selector: String,
-                host: WHATWG.DOM.Host,
+                host: HTML.DOM.Host,
                 render: @escaping (inout Renderer.Document.Context) -> Void
             ) {
                 self.host = host
                 self.render = render
-                var batch = WHATWG.DOM.Batch()
+                var batch = HTML.DOM.Batch()
                 let node = batch.select(selector)
                 batch.clear(node)
                 self.batch = batch
@@ -168,7 +168,7 @@
                 destroy(old[Int(bitPattern: index)], detach: true)
             }
             var children = [HTML.DOM.Live?](repeating: nil, count: virtuals.count)
-            var anchor: WHATWG.DOM.Node? = nil
+            var anchor: HTML.DOM.Node? = nil
             for index in virtuals.indices.reversed() {
                 let live: HTML.DOM.Live
                 switch difference.placements[index] {

@@ -1,6 +1,5 @@
 #if DOM
     public import HTML_Rendering
-    public import WHATWG_DOM
 
     extension HTML {
         public enum DOM {}
@@ -11,7 +10,7 @@
         @discardableResult
         public static func mount<Content: HTML.View>(
             in selector: String,
-            host: WHATWG.DOM.Host,
+            host: HTML.DOM.Host,
             @HTML.Builder _ content: @escaping () -> Content
         ) -> HTML.DOM.Mount {
             let mount = HTML.DOM.Mount(selector: selector, host: host) { context in

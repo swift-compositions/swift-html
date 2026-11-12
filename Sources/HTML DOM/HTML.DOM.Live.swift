@@ -5,7 +5,7 @@
 
         public final class Live {
 
-            public let node: WHATWG.DOM.Node
+            public let node: HTML.DOM.Node
 
             public let name: String
 
@@ -19,7 +19,7 @@
 
             public var key: HTML.DOM.Key?
 
-            public init(node: WHATWG.DOM.Node, name: String, key: HTML.DOM.Key?) {
+            public init(node: HTML.DOM.Node, name: String, key: HTML.DOM.Key?) {
                 self.node = node
                 self.name = name
                 self.data = ""
