@@ -39,12 +39,12 @@
 
         @_expose(wasm, "html_dom_dispatch")
         public func _dispatch(_ listener: Int32) {
-            unsafe HTML.DOM.Loop.dispatch(listener)
+            HTML.DOM.Loop.enter { unsafe HTML.DOM.Loop.dispatch(listener) }
         }
 
         @_expose(wasm, "html_dom_tick")
         public func _tick() {
-            unsafe HTML.DOM.Loop.tick()
+            HTML.DOM.Loop.enter { unsafe HTML.DOM.Loop.tick() }
         }
     #endif
 #endif

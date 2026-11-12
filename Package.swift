@@ -86,6 +86,7 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-sequence.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-optic.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-ordinal.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-executor.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -152,6 +153,16 @@ let package = Package(
                 .product(
                     name: "Binary",
                     package: "swift-binary",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Executor Hosted",
+                    package: "swift-executor",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Executor Primitive",
+                    package: "swift-executor",
                     condition: .when(traits: ["DOM"])
                 ),
             ],
