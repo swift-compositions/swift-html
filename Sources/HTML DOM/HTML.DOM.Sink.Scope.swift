@@ -1,13 +1,16 @@
-public import Renderer
+#if DOM
+    import Ordinal
+    public import Renderer
 
-extension HTML.DOM.Sink {
+    extension HTML.DOM.Sink {
 
-    struct Scope {
+        struct Scope {
 
-        let identity: Renderer.Document.Identity
+            let identity: Renderer.Document.Identity
 
-        let depth: Int
+            let depth: Int
 
-        var ordinal: Int
+            var ordinal: Ordinal
+        }
     }
-}
+#endif

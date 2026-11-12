@@ -24,6 +24,10 @@ let package = Package(
             name: "Markdown",
             description: "The Markdown view, which renders Markdown as HTML"
         ),
+        .trait(
+            name: "DOM",
+            description: "HTML DOM, which mounts an HTML view into a browser page"
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-compositions/swift-html-render.git", branch: "main"),
@@ -119,10 +123,26 @@ let package = Package(
             name: "HTML DOM",
             dependencies: [
                 .product(name: "HTML Rendering", package: "swift-html-render"),
-                .product(name: "Observer", package: "swift-observer"),
-                .product(name: "WHATWG DOM", package: "swift-whatwg-dom"),
-                .product(name: "Sequence", package: "swift-sequence"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(
+                    name: "Observer",
+                    package: "swift-observer",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "WHATWG DOM",
+                    package: "swift-whatwg-dom",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Sequence",
+                    package: "swift-sequence",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Ordinal",
+                    package: "swift-ordinal",
+                    condition: .when(traits: ["DOM"])
+                ),
             ]
         ),
         .testTarget(
@@ -130,7 +150,11 @@ let package = Package(
             dependencies: [
                 .target(name: "HTML"),
                 .target(name: "HTML DOM"),
-                .product(name: "WHATWG DOM Test Support", package: "swift-whatwg-dom"),
+                .product(
+                    name: "WHATWG DOM Test Support",
+                    package: "swift-whatwg-dom",
+                    condition: .when(traits: ["DOM"])
+                ),
                 .product(name: "Optic", package: "swift-optic"),
             ]
         ),

@@ -1,16 +1,19 @@
-public import Renderer
+#if DOM
+    public import Ordinal
+    public import Renderer
 
-extension HTML.DOM {
+    extension HTML.DOM {
 
-    public struct Key: Hashable, Sendable {
+        public struct Key: Hashable, Sendable {
 
-        public let identity: Renderer.Document.Identity
+            public let identity: Renderer.Document.Identity
 
-        public let ordinal: Int
+            public let ordinal: Ordinal
 
-        public init(_ identity: Renderer.Document.Identity, _ ordinal: Int) {
-            self.identity = identity
-            self.ordinal = ordinal
+            public init(_ identity: Renderer.Document.Identity, _ ordinal: Ordinal) {
+                self.identity = identity
+                self.ordinal = ordinal
+            }
         }
     }
-}
+#endif

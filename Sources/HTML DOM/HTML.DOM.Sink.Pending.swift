@@ -1,16 +1,18 @@
-public import Renderer
+#if DOM
+    public import Renderer
 
-extension HTML.DOM.Sink {
+    extension HTML.DOM.Sink {
 
-    struct Pending {
+        struct Pending {
 
-        var attributes: [(name: String, value: String)]
+            var attributes: [(name: String, value: String)]
 
-        var listeners: [Renderer.Document.Listener]
+            var listeners: [Renderer.Document.Listener]
 
-        init() {
-            self.attributes = []
-            self.listeners = []
+            init() {
+                self.attributes = []
+                self.listeners = []
+            }
         }
     }
-}
+#endif
