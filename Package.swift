@@ -12,7 +12,8 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(name: "HTML", targets: ["HTML"])
+        .library(name: "HTML", targets: ["HTML"]),
+        .library(name: "HTML DOM", targets: ["HTML DOM"]),
     ],
     traits: [
         .trait(
@@ -74,6 +75,11 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-text.git", branch: "main", traits: ["Byte", "Casing"]),
         .package(url: "https://github.com/swift-atoms/swift-time.git", branch: "main", traits: ["Affine"]),
         .package(url: "https://github.com/swift-atoms/swift-translation.git", branch: "main", traits: ["Affine"]),
+        .package(url: "https://github.com/swift-atoms/swift-observer.git", branch: "main", traits: ["Tracking"]),
+        .package(url: "https://github.com/swift-whatwg/swift-whatwg-dom.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-sequence.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-optic.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-ordinal.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -105,6 +111,25 @@ let package = Package(
             ],
             swiftSettings: [
                 .define("TRANSLATING", .when(traits: ["Translating"]))
+            ]
+        ),
+        .target(
+            name: "HTML DOM",
+            dependencies: [
+                .product(name: "HTML Rendering", package: "swift-html-render"),
+                .product(name: "Observer", package: "swift-observer"),
+                .product(name: "WHATWG DOM", package: "swift-whatwg-dom"),
+                .product(name: "Sequence", package: "swift-sequence"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+            ]
+        ),
+        .testTarget(
+            name: "HTML DOM Tests",
+            dependencies: [
+                .target(name: "HTML"),
+                .target(name: "HTML DOM"),
+                .product(name: "WHATWG DOM Test Support", package: "swift-whatwg-dom"),
+                .product(name: "Optic", package: "swift-optic"),
             ]
         ),
         .testTarget(
