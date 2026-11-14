@@ -10,7 +10,7 @@
             const decoder = new TextDecoder();
             const encoder = new TextEncoder();
 
-            export async function start(url) {
+            export async function start(url, more = () => ({})) {
               const nodes = [null];
               let memory;
               let exports;
@@ -103,9 +103,10 @@
               };
 
               const module = await WebAssembly.compileStreaming(fetch(url));
-              const imports = { html_dom };
+              const supplied = more({ memory: () => memory, exports: () => exports });
+              const imports = { html_dom, ...supplied };
               for (const { module: from, name, kind } of WebAssembly.Module.imports(module)) {
-                if (kind !== "function" || from === "html_dom") continue;
+                if (kind !== "function" || from === "html_dom" || supplied[from]?.[name]) continue;
                 imports[from] ??= {};
                 imports[from][name] = wasi[name] ?? (() => 52);
               }

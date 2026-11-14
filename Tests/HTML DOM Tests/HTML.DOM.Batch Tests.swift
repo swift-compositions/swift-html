@@ -99,5 +99,12 @@
             #expect(HTML.DOM.Script.source.contains("args_sizes_get(count, size)"))
             #expect(HTML.DOM.Script.source.contains("args_get()"))
         }
+
+        @Test
+        func `the script takes the page's own imports and stubs only the rest`() {
+            #expect(HTML.DOM.Script.source.contains("export async function start(url, more = () => ({}))"))
+            #expect(HTML.DOM.Script.source.contains("more({ memory: () => memory, exports: () => exports })"))
+            #expect(HTML.DOM.Script.source.contains("supplied[from]?.[name]"))
+        }
     }
 #endif
