@@ -79,6 +79,12 @@
                 checked() {
                   return current?.target?.checked ? 1 : 0;
                 },
+                elapsed() {
+                  return performance.now();
+                },
+                timer(token, milliseconds) {
+                  setTimeout(() => exports.html_dom_timer(token), milliseconds);
+                },
               };
 
               const wasi = {

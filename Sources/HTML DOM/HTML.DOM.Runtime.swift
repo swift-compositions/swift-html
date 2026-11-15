@@ -15,12 +15,18 @@
 
             var pending: Bool
 
+            var timers: [Int32: () -> Void]
+
+            var token: Int32
+
             init() {
                 self.mounts = []
                 self.handlers = [:]
                 self.next = 1
                 self.free = []
                 self.pending = false
+                self.timers = [:]
+                self.token = 1
             }
         }
     }
@@ -70,6 +76,8 @@
             free.removeAll()
             next = 1
             pending = false
+            timers.removeAll()
+            token = 1
         }
 
         func register(_ handler: @escaping (Renderer.Document.Event) -> Void) -> Int32 {

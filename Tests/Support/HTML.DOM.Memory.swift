@@ -21,6 +21,10 @@
 
             public var target: HTML.DOM.Target
 
+            public var elapsed: Duration
+
+            public var timers: [(due: Duration, token: Int32)]
+
             public init(root name: String = "main") {
                 self.root = HTML.DOM.Memory.Element(name: name)
                 self.nodes = [:]
@@ -29,6 +33,8 @@
                 self.operations = 0
                 self.scheduled = 0
                 self.target = HTML.DOM.Target()
+                self.elapsed = .zero
+                self.timers = []
             }
         }
     }
@@ -39,8 +45,20 @@
             HTML.DOM.Host(
                 flush: { self.apply($0) },
                 schedule: { self.scheduled += 1 },
-                target: { self.target }
+                target: { self.target },
+                elapsed: { self.elapsed },
+                timer: { delay, token in self.timers.append((self.elapsed + delay, token)) }
             )
+        }
+
+        public func advance(by duration: Duration) {
+            let end = elapsed + duration
+            while let next = timers.indices.filter({ timers[$0].due <= end }).min(by: { timers[$0].due < timers[$1].due }) {
+                let timer = timers.remove(at: next)
+                elapsed = timer.due
+                unsafe HTML.DOM.Runtime.shared.fire(timer.token)
+            }
+            elapsed = end
         }
 
         public var html: String {
