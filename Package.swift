@@ -41,7 +41,7 @@ let package = Package(
         .package(url: "https://github.com/swift-ecma/swift-ecma-262.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-4648.git", branch: "main"),
         .package(url: "https://github.com/swift-whatwg/swift-whatwg-url.git", branch: "main"),
-        .package(url: "https://github.com/swift-compositions/swift-color.git", branch: "main"),
+        .package(url: "https://github.com/swift-standards/swift-color-standard.git", branch: "main"),
         .package(
             url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
@@ -100,7 +100,7 @@ let package = Package(
                     package: "swift-markdown-html-render",
                     condition: .when(traits: ["Markdown"])
                 ),
-                .product(name: "Color", package: "swift-color"),
+                .product(name: "Color Standard", package: "swift-color-standard"),
                 .product(name: "ECMA 262", package: "swift-ecma-262"),
                 .product(name: "RFC 4648", package: "swift-rfc-4648"),
                 .product(name: "WHATWG Form URL Encoded", package: "swift-whatwg-url"),
