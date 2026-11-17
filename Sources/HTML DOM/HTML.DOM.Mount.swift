@@ -2,6 +2,7 @@
     public import Observer
     public import Ordinal
     public import Renderer
+    public import Renderer_Document
     import Sequence
     public import WHATWG_DOM
 

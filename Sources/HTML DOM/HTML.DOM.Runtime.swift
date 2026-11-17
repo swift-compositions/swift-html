@@ -1,5 +1,6 @@
 #if DOM
     public import Renderer
+    public import Renderer_Document
 
     extension HTML.DOM {
 

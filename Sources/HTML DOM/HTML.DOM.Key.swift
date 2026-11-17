@@ -1,6 +1,7 @@
 #if DOM
     public import Ordinal
     public import Renderer
+    public import Renderer_Document
 
     extension HTML.DOM {
 
