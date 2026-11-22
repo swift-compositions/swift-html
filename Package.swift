@@ -87,6 +87,12 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-optic.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-ordinal.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-executor.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-renderer-document.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-svg-render.git", branch: "main"),
+        .package(url: "https://github.com/swift-standards/swift-css-standard.git", branch: "main"),
+        .package(url: "https://github.com/swift-standards/swift-html-standard.git", branch: "main"),
+        .package(url: "https://github.com/swift-standards/swift-svg-standard.git", branch: "main"),
+        .package(url: "https://github.com/swift-whatwg/swift-whatwg-html.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -106,6 +112,12 @@ let package = Package(
                 .product(name: "WHATWG Form URL Encoded", package: "swift-whatwg-url"),
                 .product(name: "Byte", package: "swift-byte"),
                 .product(name: "SVG", package: "swift-svg"),
+                .product(name: "SVG Rendering", package: "swift-svg-render"),
+                .product(name: "SVG Standard", package: "swift-svg-standard"),
+                .product(name: "CSS Standard", package: "swift-css-standard"),
+                .product(name: "HTML Standard", package: "swift-html-standard"),
+                .product(name: "WHATWG HTML Elements", package: "swift-whatwg-html"),
+                .product(name: "WHATWG HTML MediaAttributes", package: "swift-whatwg-html"),
                 .product(
                     name: "Translating",
                     package: "swift-translating",
@@ -163,6 +175,11 @@ let package = Package(
                 .product(
                     name: "Executor Primitive",
                     package: "swift-executor",
+                    condition: .when(traits: ["DOM"])
+                ),
+                .product(
+                    name: "Renderer Document",
+                    package: "swift-renderer-document",
                     condition: .when(traits: ["DOM"])
                 ),
             ],
