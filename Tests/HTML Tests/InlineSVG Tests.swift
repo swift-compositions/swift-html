@@ -198,7 +198,7 @@ extension `InlineSVG Tests`.Test.Unit {
         let payload = renderedString[payloadStart...]
         let payloadEnd = try #require(payload.firstIndex(of: "\""))
         let bytes = try #require(
-            RFC_4648.Base64.decode(payload[..<payloadEnd], strictness: .strict)
+            IETF.RFC.`4648`.Base64.decode(payload[..<payloadEnd], strictness: .strict)
         )
         let decoded = try #require(String(validating: bytes.map(\.underlying), as: UTF8.self))
         #expect(decoded.contains("<svg"))
