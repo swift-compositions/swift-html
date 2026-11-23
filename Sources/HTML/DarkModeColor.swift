@@ -5,7 +5,7 @@ import CSS_Standard
 public typealias HTMLColor = DarkModeColor
 
 extension DarkModeColor {
-    private typealias sRGB = IEC_61966.`2`.`1`.SRGB
+    private typealias sRGB = IEC.`61966`.`2`.`1`.SRGB
 
     public static func gradientMidpoint(
         from color1: DarkModeColor,
